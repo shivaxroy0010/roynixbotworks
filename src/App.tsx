@@ -48,7 +48,7 @@ export function App() {
     <div className="min-h-screen bg-white text-zinc-900 flex flex-col font-sans selection:bg-brand-lime selection:text-zinc-950">
       {/* Global Top Banner / Announcement if needed */}
       <div className="bg-[#090b0e] border-b border-zinc-800 text-[11px] text-zinc-400 py-1.5 px-4 text-center font-mono">
-        <span>⚡ Titan Moderation v14 Source Code Release is Live on Whop</span>
+        <span>⚡ Roynix Studio: Titan Moderation & Roynix Music Bot Source Codes are Live on Whop</span>
       </div>
 
       {/* Primary Sticky Header */}

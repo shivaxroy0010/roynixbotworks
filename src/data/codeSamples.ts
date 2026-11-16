@@ -9,6 +9,84 @@ export interface CodeFile {
 
 export const CODE_SAMPLES: CodeFile[] = [
   {
+    path: 'src/commands/music/play.ts',
+    name: 'play.ts',
+    language: 'typescript',
+    category: 'Commands',
+    description: 'Roynix Music Bot audio dispatch engine. Resolves YouTube, Spotify, and SoundCloud streams with Lavalink v4 voice buffer.',
+    code: `import { 
+  SlashCommandBuilder, 
+  ChatInputCommandInteraction, 
+  GuildMember, 
+  EmbedBuilder 
+} from 'discord.js';
+import { musicManager } from '../../audio/music.manager';
+
+export const data = new SlashCommandBuilder()
+  .setName('play')
+  .setDescription('Streams music from YouTube, Spotify, or SoundCloud into your voice channel.')
+  .addStringOption(option =>
+    option.setName('query')
+      .setDescription('Song title, artist name, or direct track/playlist URL')
+      .setRequired(true));
+
+export async function execute(interaction: ChatInputCommandInteraction) {
+  await interaction.deferReply();
+  const member = interaction.member as GuildMember;
+  const voiceChannel = member.voice.channel;
+
+  if (!voiceChannel) {
+    return interaction.editReply({
+      content: '❌ You must be connected to a voice channel to play music.'
+    });
+  }
+
+  const query = interaction.options.getString('query', true);
+  const player = await musicManager.createPlayer({
+    guildId: interaction.guildId!,
+    voiceChannelId: voiceChannel.id,
+    textChannelId: interaction.channelId
+  });
+
+  // Query Lavalink node for track/playlist resolution
+  const searchResult = await musicManager.search(query, interaction.user);
+
+  if (!searchResult.tracks.length) {
+    return interaction.editReply({
+      content: \`❌ No audio results found for: "\${query}"\`
+    });
+  }
+
+  if (searchResult.loadType === 'PLAYLIST_LOADED') {
+    player.queue.add(searchResult.tracks);
+    if (!player.playing) await player.play();
+
+    return interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setColor('#e50914')
+          .setTitle('🎶 Playlist Queued')
+          .setDescription(\`Added **\${searchResult.tracks.length} tracks** from **\${searchResult.playlistInfo.name}**\`)
+      ]
+    });
+  }
+
+  const track = searchResult.tracks[0];
+  player.queue.add(track);
+  if (!player.playing) await player.play();
+
+  return interaction.editReply({
+    embeds: [
+      new EmbedBuilder()
+        .setColor('#e50914')
+        .setTitle('🎵 Added to Queue')
+        .setDescription(\`[**\${track.title}**](\${track.uri}) (\${track.durationFormatted})\`)
+        .setFooter({ text: \`Requested by \${interaction.user.tag}\` })
+    ]
+  });
+}`
+  },
+  {
     path: 'src/commands/moderation/ban.ts',
     name: 'ban.ts',
     language: 'typescript',

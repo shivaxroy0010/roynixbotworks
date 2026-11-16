@@ -9,7 +9,15 @@ import {
   Copy, 
   Check, 
   Sparkles, 
-  Command as CommandIcon 
+  Command as CommandIcon,
+  Play,
+  SkipForward,
+  SkipBack,
+  Repeat,
+  Shuffle,
+  Heart,
+  Volume2,
+  Headphones
 } from 'lucide-react';
 import { Product } from '../../types';
 import { WhopButton } from '../common/WhopButton';
@@ -19,11 +27,15 @@ interface ProductDeepDiveProps {
 }
 
 export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => {
-  const [activeTab, setActiveTab] = useState<'simulator' | 'specs' | 'installation' | 'views'>('simulator');
+  const [activeTab, setActiveTab] = useState<'simulator' | 'specs' | 'installation'>('simulator');
   const [activeCommandIndex, setActiveCommandIndex] = useState<number>(0);
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
   const activeCommand = product.commands[activeCommandIndex] || product.commands[0];
+  const isMusic = product.id === 'roynix-music';
+  const accentColor = isMusic ? 'text-[#e50914]' : 'text-brand-lime';
+  const accentBorder = isMusic ? 'border-[#e50914]' : 'border-brand-lime';
+  const accentBg = isMusic ? 'bg-[#e50914]' : 'bg-brand-lime';
 
   const handleCopy = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
@@ -36,19 +48,21 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto mb-10">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-700 text-xs font-bold uppercase tracking-wider mb-3">
-          <Sparkles className="w-3.5 h-3.5 text-brand-lime" />
-          <span>IN-DEPTH SPECIFICATIONS</span>
+          <Sparkles className={`w-3.5 h-3.5 ${accentColor}`} />
+          <span>IN-DEPTH SPECIFICATIONS & COMMANDS</span>
         </div>
         <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-950 tracking-tight">
-          Engineered for Discord Communities at Scale
+          {product.name} Architecture & Live Playground
         </h2>
         <p className="text-base text-zinc-600 mt-3 leading-relaxed">
-          Inspect Titan's architecture, command syntax, deployment pipelines, and operational controls before deployment.
+          {product.tagline} — Inspect command syntax, runtime pipelines, and deployment options before checkout.
         </p>
       </div>
 
       {/* Main Details Container */}
-      <div className="bg-[#0f1217] rounded-3xl border border-zinc-800 text-zinc-200 shadow-xl overflow-hidden">
+      <div className={`bg-[#0f1217] rounded-3xl border shadow-xl overflow-hidden ${
+        isMusic ? 'border-red-950/60' : 'border-zinc-800'
+      }`}>
         
         {/* Navigation Tabs */}
         <div className="flex border-b border-zinc-800/80 bg-[#090b0e] px-4 sm:px-6 pt-3 overflow-x-auto gap-2">
@@ -56,11 +70,11 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
             onClick={() => setActiveTab('simulator')}
             className={`px-4 py-3 text-xs sm:text-sm font-semibold rounded-t-xl transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap border-b-2 ${
               activeTab === 'simulator'
-                ? 'border-brand-lime text-white bg-[#0f1217]'
+                ? `${accentBorder} text-white bg-[#0f1217]`
                 : 'border-transparent text-zinc-400 hover:text-zinc-200'
             }`}
           >
-            <CommandIcon className="w-4 h-4 text-brand-lime" />
+            <CommandIcon className={`w-4 h-4 ${accentColor}`} />
             <span>Interactive Command Simulator</span>
           </button>
 
@@ -68,11 +82,11 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
             onClick={() => setActiveTab('specs')}
             className={`px-4 py-3 text-xs sm:text-sm font-semibold rounded-t-xl transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap border-b-2 ${
               activeTab === 'specs'
-                ? 'border-brand-lime text-white bg-[#0f1217]'
+                ? `${accentBorder} text-white bg-[#0f1217]`
                 : 'border-transparent text-zinc-400 hover:text-zinc-200'
             }`}
           >
-            <Cpu className="w-4 h-4 text-brand-lime" />
+            <Cpu className={`w-4 h-4 ${accentColor}`} />
             <span>Technical Architecture</span>
           </button>
 
@@ -80,11 +94,11 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
             onClick={() => setActiveTab('installation')}
             className={`px-4 py-3 text-xs sm:text-sm font-semibold rounded-t-xl transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap border-b-2 ${
               activeTab === 'installation'
-                ? 'border-brand-lime text-white bg-[#0f1217]'
+                ? `${accentBorder} text-white bg-[#0f1217]`
                 : 'border-transparent text-zinc-400 hover:text-zinc-200'
             }`}
           >
-            <Terminal className="w-4 h-4 text-brand-lime" />
+            <Terminal className={`w-4 h-4 ${accentColor}`} />
             <span>Installation Walkthrough</span>
           </button>
         </div>
@@ -105,12 +119,14 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
                     onClick={() => setActiveCommandIndex(idx)}
                     className={`w-full text-left p-3.5 rounded-xl border transition-all cursor-pointer ${
                       activeCommandIndex === idx
-                        ? 'bg-zinc-800/90 border-brand-lime/80 text-white shadow-sm'
+                        ? isMusic 
+                          ? 'bg-zinc-800/90 border-red-500/80 text-white shadow-sm'
+                          : 'bg-zinc-800/90 border-brand-lime/80 text-white shadow-sm'
                         : 'bg-zinc-900/60 border-zinc-800 text-zinc-400 hover:bg-zinc-800/50 hover:text-zinc-200'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-mono font-bold text-sm text-brand-lime">
+                      <span className={`font-mono font-bold text-sm ${accentColor}`}>
                         {cmd.name}
                       </span>
                       <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-400">
@@ -129,7 +145,7 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
             <div className="lg:col-span-7 bg-[#1e1f22] rounded-2xl border border-zinc-800 p-5 space-y-4 shadow-inner">
               <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-brand-lime" />
+                  <span className={`w-2.5 h-2.5 rounded-full ${accentBg}`} />
                   <span className="font-mono text-xs font-semibold text-zinc-300">
                     Live Command Execution Preview
                   </span>
@@ -145,13 +161,13 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
                   Command Invocation
                 </span>
                 <div className="bg-[#111214] p-3 rounded-lg font-mono text-xs text-zinc-200 border border-zinc-800 flex items-center justify-between">
-                  <span className="text-brand-lime">{activeCommand.usage}</span>
+                  <span className={accentColor}>{activeCommand.usage}</span>
                   <button
                     onClick={() => handleCopy(activeCommand.usage, 'cmd')}
                     className="p-1 hover:text-white text-zinc-500 transition-colors"
                     title="Copy command"
                   >
-                    {copiedCode === 'cmd' ? <Check className="w-3.5 h-3.5 text-brand-lime" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copiedCode === 'cmd' ? <Check className={`w-3.5 h-3.5 ${accentColor}`} /> : <Copy className="w-3.5 h-3.5" />}
                   </button>
                 </div>
               </div>
@@ -161,44 +177,128 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
                 <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-500">
                   Bot Response Embed
                 </span>
-                <div className="bg-[#2b2d31] rounded-lg border-l-4 border-brand-lime p-4 space-y-2 font-sans shadow-sm">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="w-5 h-5 rounded bg-purple-950 flex items-center justify-center text-[10px] text-purple-300 font-bold">
-                        Ψ
+
+                {isMusic ? (
+                  /* Music Player Discord Embed matching uploaded image */
+                  <div className="bg-[#2b2d31] rounded-lg border-l-4 border-[#e50914] p-4 space-y-3 font-sans shadow-sm">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded bg-[#180a0d] border border-red-500/40 flex items-center justify-center text-[10px] text-red-400 font-bold">
+                          <Headphones className="w-3.5 h-3.5" />
+                        </div>
+                        <span className="font-bold text-xs text-white">ROYNIX Music</span>
+                        <span className="bg-[#5865f2] text-white text-[9px] font-bold px-1.5 py-0.2 rounded uppercase">
+                          BOT
+                        </span>
                       </div>
-                      <span className="font-bold text-xs text-white">Titan Moderation System</span>
-                      <span className="bg-[#5865f2] text-white text-[9px] font-bold px-1.5 py-0.2 rounded uppercase">
-                        BOT
-                      </span>
+                      <span className="text-[10px] text-zinc-400 font-mono">24-bit / 48kHz</span>
                     </div>
-                    <span className="text-[10px] text-zinc-400 font-mono">Status: 200 OK</span>
-                  </div>
 
-                  <p className="text-xs text-zinc-300 font-medium">
-                    {activeCommand.description}
-                  </p>
-
-                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-zinc-700/60 font-mono text-[11px]">
-                    <div>
-                      <span className="text-zinc-500 block text-[10px]">EXECUTION TIME</span>
-                      <span className="text-zinc-300">14ms (REST latency)</span>
+                    {/* Track info card matching uploaded image */}
+                    <div className="flex items-center gap-3 bg-[#1e1f22] p-3 rounded-lg border border-zinc-800">
+                      <div className="w-12 h-12 rounded bg-zinc-900 border border-zinc-700 flex items-center justify-center flex-shrink-0 text-xl font-bold text-red-500">
+                        🎵
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="text-[10px] text-red-400 font-bold uppercase tracking-wider">
+                          Now Playing
+                        </div>
+                        <div className="text-sm font-bold text-white truncate">
+                          Alan Walker - Faded
+                        </div>
+                        <div className="text-[11px] text-zinc-400">
+                          Source: YouTube Music • Requested by: @Admin
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-zinc-500 block text-[10px]">AUDIT LOGGED</span>
-                      <span className="text-brand-lime">#mod-logs synced</span>
+
+                    {/* Progress Bar matching image */}
+                    <div className="space-y-1 font-mono text-[10px]">
+                      <div className="w-full bg-zinc-700 h-1.5 rounded-full overflow-hidden flex">
+                        <div className="bg-[#e50914] h-full w-[38%]" />
+                      </div>
+                      <div className="flex justify-between text-zinc-400">
+                        <span>1:24</span>
+                        <span>3:32</span>
+                      </div>
+                    </div>
+
+                    {/* Interactive Player Buttons */}
+                    <div className="flex items-center justify-between pt-1 border-t border-zinc-700/60">
+                      <div className="flex items-center gap-2">
+                        <button className="p-1.5 rounded bg-zinc-800 text-zinc-300 hover:text-white">
+                          <SkipBack className="w-3.5 h-3.5" />
+                        </button>
+                        <button className="p-1.5 rounded bg-[#e50914] text-white hover:bg-red-600">
+                          <Play className="w-3.5 h-3.5 fill-white" />
+                        </button>
+                        <button className="p-1.5 rounded bg-zinc-800 text-zinc-300 hover:text-white">
+                          <SkipForward className="w-3.5 h-3.5" />
+                        </button>
+                        <button className="p-1.5 rounded bg-zinc-800 text-zinc-300 hover:text-white">
+                          <Repeat className="w-3.5 h-3.5" />
+                        </button>
+                        <button className="p-1.5 rounded bg-zinc-800 text-zinc-300 hover:text-white">
+                          <Shuffle className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+
+                      <div className="flex items-center gap-2 text-[11px] text-zinc-400 font-mono">
+                        <Volume2 className="w-3.5 h-3.5 text-zinc-400" />
+                        <span>100%</span>
+                        <Heart className="w-3.5 h-3.5 text-red-500 fill-red-500 cursor-pointer ml-1" />
+                      </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  /* Titan Moderation Embed */
+                  <div className="bg-[#2b2d31] rounded-lg border-l-4 border-brand-lime p-4 space-y-2 font-sans shadow-sm">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-5 h-5 rounded bg-purple-950 flex items-center justify-center text-[10px] text-purple-300 font-bold">
+                          Ψ
+                        </div>
+                        <span className="font-bold text-xs text-white">Titan Moderation System</span>
+                        <span className="bg-[#5865f2] text-white text-[9px] font-bold px-1.5 py-0.2 rounded uppercase">
+                          BOT
+                        </span>
+                      </div>
+                      <span className="text-[10px] text-zinc-400 font-mono">Status: 200 OK</span>
+                    </div>
+
+                    <p className="text-xs text-zinc-300 font-medium">
+                      {activeCommand.description}
+                    </p>
+
+                    <div className="grid grid-cols-2 gap-2 pt-2 border-t border-zinc-700/60 font-mono text-[11px]">
+                      <div>
+                        <span className="text-zinc-500 block text-[10px]">EXECUTION TIME</span>
+                        <span className="text-zinc-300">14ms (REST latency)</span>
+                      </div>
+                      <div>
+                        <span className="text-zinc-500 block text-[10px]">AUDIT LOGGED</span>
+                        <span className="text-brand-lime">#mod-logs synced</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Purchase Prompt Bar */}
               <div className="pt-3 flex items-center justify-between border-t border-zinc-800/80">
-                <span className="text-xs text-zinc-400">
-                  Ready to deploy on your Discord servers?
-                </span>
-                <WhopButton variant="lime" size="sm">
-                  Get Titan on Whop
+                <div className="text-xs text-zinc-400">
+                  {isMusic ? (
+                    <span>Ready for lossless music playback in your server?</span>
+                  ) : (
+                    <span>Ready to deploy on your Discord servers?</span>
+                  )}
+                </div>
+                <WhopButton 
+                  href={product.checkoutUrl}
+                  variant={isMusic ? 'crimson' : 'lime'} 
+                  size="sm"
+                >
+                  {isMusic ? 'Buy Roynix Music on Whop' : 'Get Titan on Whop'}
                 </WhopButton>
               </div>
 
@@ -212,7 +312,7 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
           <div className="p-6 sm:p-8 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               <div className="p-5 rounded-2xl bg-zinc-900/80 border border-zinc-800 space-y-2">
-                <div className="flex items-center gap-2 text-brand-lime font-bold text-sm">
+                <div className={`flex items-center gap-2 ${accentColor} font-bold text-sm`}>
                   <Code2 className="w-4 h-4" />
                   <span>Runtime & Language</span>
                 </div>
@@ -223,18 +323,20 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
               </div>
 
               <div className="p-5 rounded-2xl bg-zinc-900/80 border border-zinc-800 space-y-2">
-                <div className="flex items-center gap-2 text-brand-lime font-bold text-sm">
+                <div className={`flex items-center gap-2 ${accentColor} font-bold text-sm`}>
                   <Cpu className="w-4 h-4" />
-                  <span>Discord Framework</span>
+                  <span>Framework & Engine</span>
                 </div>
                 <p className="text-white font-mono text-sm">{product.specs.library}</p>
                 <p className="text-xs text-zinc-400 leading-relaxed">
-                  Native Discord.js v14 implementation leveraging Gateway v10, interactions routing, and granular permission bitfields.
+                  {isMusic 
+                    ? 'Lavalink v4 high-performance audio node integration with Opus 48kHz audio encoding.'
+                    : 'Native Discord.js v14 implementation leveraging Gateway v10, interactions routing, and granular permission bitfields.'}
                 </p>
               </div>
 
               <div className="p-5 rounded-2xl bg-zinc-900/80 border border-zinc-800 space-y-2">
-                <div className="flex items-center gap-2 text-brand-lime font-bold text-sm">
+                <div className={`flex items-center gap-2 ${accentColor} font-bold text-sm`}>
                   <Database className="w-4 h-4" />
                   <span>Database Layer</span>
                 </div>
@@ -245,7 +347,7 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
               </div>
 
               <div className="p-5 rounded-2xl bg-zinc-900/80 border border-zinc-800 space-y-2">
-                <div className="flex items-center gap-2 text-brand-lime font-bold text-sm">
+                <div className={`flex items-center gap-2 ${accentColor} font-bold text-sm`}>
                   <Server className="w-4 h-4" />
                   <span>Deployment Targets</span>
                 </div>
@@ -259,9 +361,9 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
               </div>
 
               <div className="p-5 rounded-2xl bg-zinc-900/80 border border-zinc-800 space-y-2">
-                <div className="flex items-center gap-2 text-brand-lime font-bold text-sm">
+                <div className={`flex items-center gap-2 ${accentColor} font-bold text-sm`}>
                   <ShieldCheck className="w-4 h-4" />
-                  <span>Source Code Commercial License</span>
+                  <span>Commercial Source License</span>
                 </div>
                 <p className="text-white font-mono text-sm">{product.specs.license}</p>
                 <p className="text-xs text-zinc-400 leading-relaxed">
@@ -271,7 +373,7 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
 
               <div className="p-5 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex flex-col justify-between space-y-3">
                 <div>
-                  <div className="flex items-center gap-2 text-brand-lime font-bold text-sm mb-1">
+                  <div className={`flex items-center gap-2 ${accentColor} font-bold text-sm mb-1`}>
                     <Sparkles className="w-4 h-4" />
                     <span>Purchase & Fulfillment</span>
                   </div>
@@ -279,8 +381,12 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
                     Direct instant fulfillment via Whop. Access git repository, zip archives, and future updates.
                   </p>
                 </div>
-                <WhopButton variant="lime" size="sm">
-                  Get Titan on Whop
+                <WhopButton 
+                  href={product.checkoutUrl}
+                  variant={isMusic ? 'crimson' : 'lime'} 
+                  size="sm"
+                >
+                  {isMusic ? 'Buy Roynix Music on Whop' : 'Get Titan on Whop'}
                 </WhopButton>
               </div>
             </div>
@@ -298,7 +404,7 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2.5">
-                      <span className="w-6 h-6 rounded-full bg-brand-lime text-zinc-950 font-bold text-xs flex items-center justify-center">
+                      <span className={`w-6 h-6 rounded-full ${accentBg} text-zinc-950 font-bold text-xs flex items-center justify-center`}>
                         {step.step}
                       </span>
                       <h4 className="font-bold text-sm sm:text-base text-white">
@@ -313,14 +419,14 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
 
                   {step.command && (
                     <div className="ml-8 mt-2 bg-[#090b0e] p-3 rounded-xl border border-zinc-800 font-mono text-xs text-zinc-200 flex items-center justify-between">
-                      <span className="text-brand-lime">{step.command}</span>
+                      <span className={accentColor}>{step.command}</span>
                       <button
                         onClick={() => handleCopy(step.command!, `inst-${step.step}`)}
                         className="p-1 hover:text-white text-zinc-500 transition-colors cursor-pointer"
                         title="Copy command"
                       >
                         {copiedCode === `inst-${step.step}` ? (
-                          <Check className="w-4 h-4 text-brand-lime" />
+                          <Check className={`w-4 h-4 ${accentColor}`} />
                         ) : (
                           <Copy className="w-4 h-4" />
                         )}
@@ -335,8 +441,12 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
               <span className="text-xs sm:text-sm text-zinc-300">
                 Detailed step-by-step PDF & Markdown documentation is bundled inside your Whop download.
               </span>
-              <WhopButton variant="lime" size="md">
-                Get Titan on Whop
+              <WhopButton 
+                href={product.checkoutUrl}
+                variant={isMusic ? 'crimson' : 'lime'} 
+                size="md"
+              >
+                {isMusic ? 'Buy Roynix Music on Whop' : 'Get Titan on Whop'}
               </WhopButton>
             </div>
           </div>

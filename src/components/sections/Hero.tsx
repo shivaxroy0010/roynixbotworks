@@ -12,7 +12,13 @@ import {
   Users, 
   Send,
   Ban,
-  Trash2
+  Trash2,
+  Headphones,
+  SkipForward,
+  SkipBack,
+  Repeat,
+  Shuffle,
+  Heart
 } from 'lucide-react';
 
 interface HeroProps {
@@ -21,7 +27,7 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onExploreProducts, onViewSolutions }) => {
-  const [selectedChannel, setSelectedChannel] = useState<'mod-logs' | 'automod' | 'welcome'>('mod-logs');
+  const [selectedChannel, setSelectedChannel] = useState<'mod-logs' | 'automod' | 'welcome' | 'music'>('mod-logs');
 
   return (
     <section id="home" className="relative pt-6 pb-12 sm:pt-8 sm:pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -159,6 +165,18 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProducts, onViewSolutions }
                         >
                           <Hash className="w-3.5 h-3.5 text-zinc-400" />
                           <span>welcome</span>
+                        </div>
+                        <div 
+                          onClick={() => setSelectedChannel('music')}
+                          className={`flex items-center gap-1.5 px-2 py-1 rounded text-xs cursor-pointer transition-colors ${
+                            selectedChannel === 'music' 
+                              ? 'bg-[#35373c] text-[#ff4d58] font-bold' 
+                              : 'text-zinc-400 hover:bg-[#35373c]/50 hover:text-zinc-200'
+                          }`}
+                        >
+                          <Hash className="w-3.5 h-3.5 text-red-400" />
+                          <span>music</span>
+                          <span className="ml-auto text-[9px] px-1 rounded bg-red-950/80 text-red-400 font-mono">NEW</span>
                         </div>
                         <div className="flex items-center gap-1.5 px-2 py-1 rounded text-xs text-zinc-400 hover:bg-[#35373c]/50 hover:text-zinc-200 cursor-pointer">
                           <Hash className="w-3.5 h-3.5 text-zinc-400" />
@@ -359,6 +377,71 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProducts, onViewSolutions }
                                 <div><span className="text-zinc-400">Member:</span> <span className="text-zinc-200">@community_dev</span></div>
                                 <div><span className="text-zinc-400">Assigned Role:</span> <span className="text-purple-300">@Member</span></div>
                                 <div><span className="text-zinc-400">Account Age:</span> <span className="text-zinc-400">842 days (Verified)</span></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    {selectedChannel === 'music' && (
+                      <>
+                        <div className="flex items-start gap-2.5">
+                          <div className="w-7 h-7 rounded-full bg-[#180a0d] border border-red-500/40 flex items-center justify-center flex-shrink-0 text-red-500 font-bold text-[10px]">
+                            <Headphones className="w-3.5 h-3.5" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1.5 mb-1">
+                              <span className="font-bold text-xs text-white">ROYNIX Music</span>
+                              <span className="bg-[#5865f2] text-white text-[9px] font-bold px-1.5 py-0.2 rounded uppercase tracking-wider">
+                                BOT
+                              </span>
+                              <span className="text-[10px] text-zinc-400 font-mono ml-auto">24-bit / 48kHz</span>
+                            </div>
+
+                            {/* Music Player Embed matching uploaded image */}
+                            <div className="bg-[#2b2d31] rounded border-l-4 border-[#e50914] p-3 text-[11px] space-y-2 shadow-sm">
+                              <div className="flex items-center gap-2">
+                                <span className="text-[10px] font-bold text-red-400 uppercase tracking-wider">
+                                  Now Playing
+                                </span>
+                              </div>
+
+                              <div className="flex items-center gap-2.5 bg-[#1e1f22] p-2 rounded">
+                                <div className="w-8 h-8 rounded bg-red-950/80 border border-red-600/40 flex items-center justify-center text-sm">
+                                  🎧
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <div className="font-bold text-xs text-white truncate">
+                                    Alan Walker - Faded
+                                  </div>
+                                  <div className="text-[10px] text-zinc-400">
+                                    YouTube Music • 3:32
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Progress bar */}
+                              <div className="space-y-0.5 font-mono text-[9px]">
+                                <div className="w-full bg-zinc-700 h-1 rounded-full overflow-hidden flex">
+                                  <div className="bg-[#e50914] h-full w-[38%]" />
+                                </div>
+                                <div className="flex justify-between text-zinc-400">
+                                  <span>1:24</span>
+                                  <span>3:32</span>
+                                </div>
+                              </div>
+
+                              {/* Interactive controls */}
+                              <div className="flex items-center justify-between pt-1 border-t border-zinc-700/50">
+                                <div className="flex items-center gap-1.5">
+                                  <span className="p-1 rounded bg-zinc-800 text-zinc-300"><SkipBack className="w-3 h-3" /></span>
+                                  <span className="p-1 rounded bg-[#e50914] text-white"><Play className="w-3 h-3 fill-white" /></span>
+                                  <span className="p-1 rounded bg-zinc-800 text-zinc-300"><SkipForward className="w-3 h-3" /></span>
+                                  <span className="p-1 rounded bg-zinc-800 text-zinc-300"><Repeat className="w-3 h-3" /></span>
+                                  <span className="p-1 rounded bg-zinc-800 text-zinc-300"><Shuffle className="w-3 h-3" /></span>
+                                </div>
+                                <Heart className="w-3.5 h-3.5 text-red-500 fill-red-500 cursor-pointer" />
                               </div>
                             </div>
                           </div>

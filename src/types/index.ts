@@ -3,12 +3,19 @@ export interface Product {
   name: string;
   slug: string;
   tagline: string;
-  category: 'Discord Moderation' | 'Community Automation' | 'Security & Verification' | 'Analytics & Engagement';
+  category: 'Discord Moderation' | 'Music & Audio' | 'Community Automation' | 'Security & Verification' | 'Analytics & Engagement';
   badge: string;
   featured: boolean;
   status: 'available' | 'coming-soon';
   description: string;
+  checkoutUrl: string;
   priceFormatted?: string;
+  originalPrice?: string;
+  currentPrice?: string;
+  discountBadge?: string;
+  headlineIntro?: string;
+  platforms?: string[];
+  bulletPoints?: string[];
   features: string[];
   specs: {
     runtime: string;
@@ -31,7 +38,7 @@ export interface Product {
     usage: string;
     permission: string;
   }[];
-  iconType: 'titan' | 'atlas' | 'sentinel' | 'pulse';
+  iconType: 'titan' | 'music' | 'atlas' | 'sentinel' | 'pulse';
 }
 
 export interface FAQItem {

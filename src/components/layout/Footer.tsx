@@ -53,6 +53,16 @@ export const Footer: React.FC<FooterProps> = ({
                 </a>
               </li>
               <li>
+                <a 
+                  href="https://whop.com/roynix-development/products/roynix-music-bot/" 
+                  target="_self" 
+                  className="text-red-400 hover:text-white transition-colors flex items-center gap-1 font-semibold"
+                >
+                  Roynix Music Bot
+                  <span className="text-[10px] px-1 rounded bg-red-950 text-red-400">15% OFF</span>
+                </a>
+              </li>
+              <li>
                 <span className="text-zinc-500 flex items-center gap-1.5">
                   Sentinel Security
                   <span className="text-[10px] px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-400">Roadmap</span>

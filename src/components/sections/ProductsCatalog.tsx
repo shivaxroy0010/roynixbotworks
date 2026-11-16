@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Lock, Check, Eye } from 'lucide-react';
+import { Lock, Check, Eye, Headphones } from 'lucide-react';
 import { PRODUCTS } from '../../data/products';
 import { Product } from '../../types';
 import { WhopButton } from '../common/WhopButton';
@@ -14,6 +14,7 @@ export const ProductsCatalog: React.FC<ProductsCatalogProps> = ({ onSelectProduc
   const categories = [
     { id: 'all', label: 'All Products' },
     { id: 'Discord Moderation', label: 'Discord Moderation' },
+    { id: 'Music & Audio', label: 'Music & Audio' },
     { id: 'Security & Verification', label: 'Security & Verification' },
     { id: 'Community Automation', label: 'Community Automation' },
   ];
@@ -55,14 +56,18 @@ export const ProductsCatalog: React.FC<ProductsCatalogProps> = ({ onSelectProduc
       {/* Products Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProducts.map((bot) => {
+          const isAvailable = bot.status === 'available';
+          const isMusic = bot.id === 'roynix-music';
           const isTitan = bot.id === 'titan-moderation';
 
           return (
             <div
               key={bot.id}
               className={`rounded-2xl border transition-all duration-200 flex flex-col justify-between p-6 ${
-                isTitan
-                  ? 'bg-white border-zinc-300 shadow-sm hover:shadow-md ring-1 ring-zinc-900/5'
+                isAvailable
+                  ? isMusic
+                    ? 'bg-white border-red-300 shadow-sm hover:shadow-md ring-1 ring-red-500/10'
+                    : 'bg-white border-zinc-300 shadow-sm hover:shadow-md ring-1 ring-zinc-900/5'
                   : 'bg-zinc-50/70 border-zinc-200 text-zinc-600'
               }`}
             >
@@ -70,25 +75,38 @@ export const ProductsCatalog: React.FC<ProductsCatalogProps> = ({ onSelectProduc
                 {/* Header Badge */}
                 <div className="flex items-center justify-between mb-4">
                   <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider ${
-                    isTitan 
+                    isMusic
+                      ? 'bg-red-50 text-[#e50914] border border-red-200'
+                      : isTitan 
                       ? 'bg-[#dcfce7] text-[#15803d]' 
                       : 'bg-zinc-200/80 text-zinc-600'
                   }`}>
                     {bot.badge}
                   </span>
-                  <span className="text-xs font-mono font-medium text-zinc-500">
-                    {bot.priceFormatted}
-                  </span>
+                  
+                  <div className="flex items-center gap-1.5 text-xs font-mono font-medium">
+                    {bot.originalPrice && (
+                      <span className="line-through text-zinc-400">
+                        {bot.originalPrice}
+                      </span>
+                    )}
+                    <span className={isMusic ? 'text-[#e50914] font-bold' : 'text-zinc-700 font-bold'}>
+                      {bot.currentPrice || bot.priceFormatted}
+                    </span>
+                  </div>
                 </div>
 
                 {/* Bot Icon & Name */}
                 <div className="flex items-center gap-3 mb-3">
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg ${
-                    isTitan 
+                    isMusic
+                      ? 'bg-[#180a0d] text-[#e50914] border border-red-500/30 shadow-xs'
+                      : isTitan 
                       ? 'bg-zinc-950 text-brand-lime border border-zinc-800 shadow-sm' 
                       : 'bg-zinc-200 text-zinc-500'
                   }`}>
                     {bot.iconType === 'titan' && 'Ψ'}
+                    {bot.iconType === 'music' && <Headphones className="w-6 h-6" />}
                     {bot.iconType === 'sentinel' && '🛡'}
                     {bot.iconType === 'atlas' && '⚡'}
                   </div>
@@ -103,7 +121,7 @@ export const ProductsCatalog: React.FC<ProductsCatalogProps> = ({ onSelectProduc
                 </div>
 
                 {/* Description */}
-                <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed mb-5">
+                <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed mb-5 line-clamp-3">
                   {bot.description}
                 </p>
 
@@ -114,13 +132,15 @@ export const ProductsCatalog: React.FC<ProductsCatalogProps> = ({ onSelectProduc
                   </div>
                   {bot.features.slice(0, 4).map((f, i) => (
                     <div key={i} className="flex items-center gap-2 text-xs text-zinc-700">
-                      <Check className={`w-3.5 h-3.5 flex-shrink-0 ${isTitan ? 'text-brand-green' : 'text-zinc-400'}`} />
+                      <Check className={`w-3.5 h-3.5 flex-shrink-0 ${
+                        isMusic ? 'text-[#e50914]' : isTitan ? 'text-brand-green' : 'text-zinc-400'
+                      }`} />
                       <span>{f}</span>
                     </div>
                   ))}
                   {bot.features.length > 4 && (
                     <div className="text-[11px] text-zinc-400 font-medium pl-5">
-                      + {bot.features.length - 4} additional enterprise modules
+                      + {bot.features.length - 4} additional modules
                     </div>
                   )}
                 </div>
@@ -128,14 +148,15 @@ export const ProductsCatalog: React.FC<ProductsCatalogProps> = ({ onSelectProduc
 
               {/* Action Buttons */}
               <div className="pt-2">
-                {isTitan ? (
+                {isAvailable ? (
                   <div className="flex items-center gap-2">
                     <WhopButton 
-                      variant="lime" 
+                      href={bot.checkoutUrl}
+                      variant={isMusic ? 'crimson' : 'lime'} 
                       size="sm"
                       className="flex-1 text-center font-bold"
                     >
-                      Get Titan on Whop
+                      {isMusic ? 'Buy on Whop ($49.99)' : 'Get Titan on Whop'}
                     </WhopButton>
                     <button
                       onClick={() => onSelectProduct(bot)}
