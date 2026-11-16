@@ -156,7 +156,7 @@ export const ProductsCatalog: React.FC<ProductsCatalogProps> = ({ onSelectProduc
                       size="sm"
                       className="flex-1 text-center font-bold"
                     >
-                      {isMusic ? 'Buy on Whop ($49.99)' : 'Get Titan on Whop'}
+                      {isMusic ? 'Buy on Whop ($49.99)' : 'Get Titan on Whop ($29.29)'}
                     </WhopButton>
                     <button
                       onClick={() => onSelectProduct(bot)}

@@ -198,7 +198,7 @@ export const FeaturedProduct: React.FC<FeaturedProductProps> = ({
                   size="md"
                   className="font-bold text-sm !px-5 !py-2.5 shadow-sm"
                 >
-                  {isMusic ? 'Buy Roynix Music on Whop' : 'Get Titan on Whop'}
+                  {isMusic ? 'Buy Roynix Music on Whop ($49.99)' : 'Get Titan on Whop ($29.29)'}
                 </WhopButton>
 
                 <button

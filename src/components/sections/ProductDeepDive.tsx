@@ -298,7 +298,7 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
                   variant={isMusic ? 'crimson' : 'lime'} 
                   size="sm"
                 >
-                  {isMusic ? 'Buy Roynix Music on Whop' : 'Get Titan on Whop'}
+                  {isMusic ? 'Buy Roynix Music on Whop ($49.99)' : 'Get Titan on Whop ($29.29)'}
                 </WhopButton>
               </div>
 
@@ -386,7 +386,7 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
                   variant={isMusic ? 'crimson' : 'lime'} 
                   size="sm"
                 >
-                  {isMusic ? 'Buy Roynix Music on Whop' : 'Get Titan on Whop'}
+                  {isMusic ? 'Buy Roynix Music on Whop ($49.99)' : 'Get Titan on Whop ($29.29)'}
                 </WhopButton>
               </div>
             </div>
@@ -446,7 +446,7 @@ export const ProductDeepDive: React.FC<ProductDeepDiveProps> = ({ product }) => 
                 variant={isMusic ? 'crimson' : 'lime'} 
                 size="md"
               >
-                {isMusic ? 'Buy Roynix Music on Whop' : 'Get Titan on Whop'}
+                {isMusic ? 'Buy Roynix Music on Whop ($49.99)' : 'Get Titan on Whop ($29.29)'}
               </WhopButton>
             </div>
           </div>
