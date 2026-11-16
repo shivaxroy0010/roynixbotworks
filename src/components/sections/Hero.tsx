@@ -246,67 +246,125 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProducts, onViewSolutions }
 
                   {/* Channel Messages List */}
                   <div className="p-3 space-y-3.5 overflow-y-auto max-h-[300px]">
-                    
-                    {/* Bot Message 1: Member Banned Embed */}
-                    <div className="flex items-start gap-2.5">
-                      {/* Titan Bot Avatar */}
-                      <div className="w-7 h-7 rounded-full bg-[#111214] border border-purple-500/40 flex items-center justify-center flex-shrink-0 text-purple-400 font-black text-[10px]">
-                        Ψ
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-1.5 mb-1">
-                          <span className="font-bold text-xs text-white">Titan</span>
-                          <span className="bg-[#5865f2] text-white text-[9px] font-bold px-1.5 py-0.2 rounded uppercase tracking-wider">
-                            BOT
-                          </span>
-                        </div>
-
-                        {/* Red Embed: Member Banned */}
-                        <div className="bg-[#2b2d31] rounded border-l-4 border-[#ed4245] p-2.5 text-[11px] space-y-1.5 shadow-sm">
-                          <div className="flex items-center gap-1.5 font-bold text-[#ed4245]">
-                            <Ban className="w-3.5 h-3.5" />
-                            <span>Member Banned</span>
+                    {selectedChannel === 'mod-logs' && (
+                      <>
+                        {/* Bot Message 1: Member Banned Embed */}
+                        <div className="flex items-start gap-2.5">
+                          <div className="w-7 h-7 rounded-full bg-[#111214] border border-purple-500/40 flex items-center justify-center flex-shrink-0 text-purple-400 font-black text-[10px]">
+                            Ψ
                           </div>
-                          <div className="text-zinc-300 space-y-0.5 leading-relaxed font-mono text-[10px]">
-                            <div><span className="text-zinc-400">User:</span> <span className="text-zinc-200">@example</span></div>
-                            <div><span className="text-zinc-400">Moderator:</span> <span className="text-purple-300">@Admin</span></div>
-                            <div><span className="text-zinc-400">Reason:</span> <span className="text-zinc-200">Toxic behavior</span></div>
-                            <div><span className="text-zinc-400">Time:</span> <span className="text-zinc-400">Today at 18:24</span></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1.5 mb-1">
+                              <span className="font-bold text-xs text-white">Titan</span>
+                              <span className="bg-[#5865f2] text-white text-[9px] font-bold px-1.5 py-0.2 rounded uppercase tracking-wider">
+                                BOT
+                              </span>
+                            </div>
 
-                    {/* Bot Message 2: Message Deleted Embed */}
-                    <div className="flex items-start gap-2.5">
-                      {/* Titan Bot Avatar */}
-                      <div className="w-7 h-7 rounded-full bg-[#111214] border border-purple-500/40 flex items-center justify-center flex-shrink-0 text-purple-400 font-black text-[10px]">
-                        Ψ
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-1.5 mb-1">
-                          <span className="font-bold text-xs text-white">Titan</span>
-                          <span className="bg-[#5865f2] text-white text-[9px] font-bold px-1.5 py-0.2 rounded uppercase tracking-wider">
-                            BOT
-                          </span>
-                        </div>
-
-                        {/* Yellow Embed: Message Deleted */}
-                        <div className="bg-[#2b2d31] rounded border-l-4 border-[#faa81a] p-2.5 text-[11px] space-y-1.5 shadow-sm">
-                          <div className="flex items-center gap-1.5 font-bold text-[#faa81a]">
-                            <Trash2 className="w-3.5 h-3.5" />
-                            <span>Message Deleted</span>
-                          </div>
-                          <div className="text-zinc-300 space-y-0.5 leading-relaxed font-mono text-[10px]">
-                            <div><span className="text-zinc-400">User:</span> <span className="text-zinc-200">@example</span></div>
-                            <div><span className="text-zinc-400">Channel:</span> <span className="text-zinc-200">#general</span></div>
-                            <div><span className="text-zinc-400">Content:</span> <span className="text-zinc-300 italic">"spamming links..."</span></div>
-                            <div><span className="text-zinc-400">Time:</span> <span className="text-zinc-400">Today at 18:21</span></div>
+                            {/* Red Embed: Member Banned */}
+                            <div className="bg-[#2b2d31] rounded border-l-4 border-[#ed4245] p-2.5 text-[11px] space-y-1.5 shadow-sm">
+                              <div className="flex items-center gap-1.5 font-bold text-[#ed4245]">
+                                <Ban className="w-3.5 h-3.5" />
+                                <span>Member Banned</span>
+                              </div>
+                              <div className="text-zinc-300 space-y-0.5 leading-relaxed font-mono text-[10px]">
+                                <div><span className="text-zinc-400">User:</span> <span className="text-zinc-200">@example</span></div>
+                                <div><span className="text-zinc-400">Moderator:</span> <span className="text-purple-300">@Admin</span></div>
+                                <div><span className="text-zinc-400">Reason:</span> <span className="text-zinc-200">Toxic behavior</span></div>
+                                <div><span className="text-zinc-400">Time:</span> <span className="text-zinc-400">Today at 18:24</span></div>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
 
+                        {/* Bot Message 2: Message Deleted Embed */}
+                        <div className="flex items-start gap-2.5">
+                          <div className="w-7 h-7 rounded-full bg-[#111214] border border-purple-500/40 flex items-center justify-center flex-shrink-0 text-purple-400 font-black text-[10px]">
+                            Ψ
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1.5 mb-1">
+                              <span className="font-bold text-xs text-white">Titan</span>
+                              <span className="bg-[#5865f2] text-white text-[9px] font-bold px-1.5 py-0.2 rounded uppercase tracking-wider">
+                                BOT
+                              </span>
+                            </div>
+
+                            {/* Yellow Embed: Message Deleted */}
+                            <div className="bg-[#2b2d31] rounded border-l-4 border-[#faa81a] p-2.5 text-[11px] space-y-1.5 shadow-sm">
+                              <div className="flex items-center gap-1.5 font-bold text-[#faa81a]">
+                                <Trash2 className="w-3.5 h-3.5" />
+                                <span>Message Deleted</span>
+                              </div>
+                              <div className="text-zinc-300 space-y-0.5 leading-relaxed font-mono text-[10px]">
+                                <div><span className="text-zinc-400">User:</span> <span className="text-zinc-200">@example</span></div>
+                                <div><span className="text-zinc-400">Channel:</span> <span className="text-zinc-200">#general</span></div>
+                                <div><span className="text-zinc-400">Content:</span> <span className="text-zinc-300 italic">"spamming links..."</span></div>
+                                <div><span className="text-zinc-400">Time:</span> <span className="text-zinc-400">Today at 18:21</span></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    {selectedChannel === 'automod' && (
+                      <>
+                        <div className="flex items-start gap-2.5">
+                          <div className="w-7 h-7 rounded-full bg-[#111214] border border-purple-500/40 flex items-center justify-center flex-shrink-0 text-purple-400 font-black text-[10px]">
+                            Ψ
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1.5 mb-1">
+                              <span className="font-bold text-xs text-white">Titan AutoMod</span>
+                              <span className="bg-[#5865f2] text-white text-[9px] font-bold px-1.5 py-0.2 rounded uppercase tracking-wider">
+                                BOT
+                              </span>
+                            </div>
+                            <div className="bg-[#2b2d31] rounded border-l-4 border-[#5865f2] p-2.5 text-[11px] space-y-1.5 shadow-sm">
+                              <div className="flex items-center gap-1.5 font-bold text-[#5865f2]">
+                                <ShieldCheck className="w-3.5 h-3.5" />
+                                <span>Invite Link Intercepted</span>
+                              </div>
+                              <div className="text-zinc-300 space-y-0.5 leading-relaxed font-mono text-[10px]">
+                                <div><span className="text-zinc-400">Trigger:</span> <span className="text-zinc-200">discord.gg/scam-link-test</span></div>
+                                <div><span className="text-zinc-400">Action:</span> <span className="text-brand-lime">Purged + 15m Timeout</span></div>
+                                <div><span className="text-zinc-400">Latency:</span> <span className="text-zinc-400">12ms regex scan</span></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    {selectedChannel === 'welcome' && (
+                      <>
+                        <div className="flex items-start gap-2.5">
+                          <div className="w-7 h-7 rounded-full bg-[#111214] border border-purple-500/40 flex items-center justify-center flex-shrink-0 text-purple-400 font-black text-[10px]">
+                            Ψ
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1.5 mb-1">
+                              <span className="font-bold text-xs text-white">Titan Gatekeeper</span>
+                              <span className="bg-[#5865f2] text-white text-[9px] font-bold px-1.5 py-0.2 rounded uppercase tracking-wider">
+                                BOT
+                              </span>
+                            </div>
+                            <div className="bg-[#2b2d31] rounded border-l-4 border-[#23a55a] p-2.5 text-[11px] space-y-1.5 shadow-sm">
+                              <div className="flex items-center gap-1.5 font-bold text-[#23a55a]">
+                                <ShieldCheck className="w-3.5 h-3.5" />
+                                <span>Verified Member Joined</span>
+                              </div>
+                              <div className="text-zinc-300 space-y-0.5 leading-relaxed font-mono text-[10px]">
+                                <div><span className="text-zinc-400">Member:</span> <span className="text-zinc-200">@community_dev</span></div>
+                                <div><span className="text-zinc-400">Assigned Role:</span> <span className="text-purple-300">@Member</span></div>
+                                <div><span className="text-zinc-400">Account Age:</span> <span className="text-zinc-400">842 days (Verified)</span></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
 
                   {/* Channel Input Bar Placeholder */}

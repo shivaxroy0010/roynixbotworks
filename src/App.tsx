@@ -5,7 +5,10 @@ import { WhyUs } from './components/sections/WhyUs';
 import { FeaturedProduct } from './components/sections/FeaturedProduct';
 import { HowItWorks } from './components/sections/HowItWorks';
 import { ProductDeepDive } from './components/sections/ProductDeepDive';
+import { CodebaseExplorer } from './components/sections/CodebaseExplorer';
 import { ProductsCatalog } from './components/sections/ProductsCatalog';
+import { SecurityAssurance } from './components/sections/SecurityAssurance';
+import { ChangelogSection } from './components/sections/ChangelogSection';
 import { FAQSection } from './components/sections/FAQSection';
 import { Footer } from './components/layout/Footer';
 import { DocumentationModal } from './components/sections/DocumentationModal';
@@ -77,8 +80,17 @@ export function App() {
         {/* Dedicated Titan Deep Dive Section (Interactive Simulator, Tech Specs, Walkthrough) */}
         <ProductDeepDive product={selectedProduct} />
 
+        {/* Codebase Transparency File Tree Explorer */}
+        <CodebaseExplorer />
+
         {/* Extensible Product Suite Catalog */}
         <ProductsCatalog onSelectProduct={handleViewProductDetails} />
+
+        {/* Architectural Security & Self-Hosted Sovereignty */}
+        <SecurityAssurance />
+
+        {/* Engineering Changelog & Version History */}
+        <ChangelogSection />
 
         {/* Frequently Asked Questions */}
         <FAQSection onOpenSupport={() => setIsSupportOpen(true)} />
